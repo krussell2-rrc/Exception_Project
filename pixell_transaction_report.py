@@ -35,42 +35,46 @@ try:
             transaction_type = row[1]
             ### VALIDATION 1 ###
             if transaction_type not in valid_transaction_types:
-                transaction_type = False
-                error_message = 'This is an invalid transaction type.'
-                print(f"ERROR: {error_message}")
+                    valid_record = False
+                    error_message = 'This is an invalid transaction type.'
+                    print(f"ERROR: {error_message}")
 
-            # Extract the transaction amount from the third column
-            ### VALIDATION 2 ###
+                # Extract the transaction amount from the third column
+                ### VALIDATION 2 ###
             try:
-                transaction_amount = float(row[2])
+                    transaction_amount = float(row[2])
             except ValueError:
-                valid_record = False
-                error_message = 'This is a non-numeric amount.'
-                print(f"ERROR: {error_message}")
-            
+                    valid_record = False
+                    error_message = 'This is a non-numeric amount.'
+                    print(f"ERROR: {error_message}")
+                
             if valid_record:
-                # Initialize the customer's account balance if it doesn't already exist
-                if customer_id not in customer_data:
-                    customer_data[customer_id] = {'balance': 0, 'transactions': []}
+                    # Initialize the customer's account balance if it doesn't already exist
+                    if customer_id not in customer_data:
+                        customer_data[customer_id] = {'balance': 0, 'transactions': []}
 
-                # Update the customer's account balance based on the transaction type
-                elif transaction_type == 'deposit':
-                    customer_data[customer_id]['balance'] += transaction_amount
-                    transaction_count += 1
-                    total_transaction_amount += transaction_amount
-                elif transaction_type == 'withdrawal':
-                    customer_data[customer_id]['balance'] += transaction_amount
-                    transaction_count += 1
-                    total_transaction_amount += transaction_amount
+                    # Update the customer's account balance based on the transaction type
+                    elif transaction_type == 'deposit':
+                        customer_data[customer_id]['balance'] += transaction_amount
+                        transaction_count += 1
+                        total_transaction_amount += transaction_amount
+                    elif transaction_type == 'withdrawal':
+                        customer_data[customer_id]['balance'] += transaction_amount
+                        transaction_count += 1
+                        total_transaction_amount += transaction_amount
+                    
+                    # Record transactions in the customer's transaction history
+                    customer_data[customer_id]['transactions'].append((transaction_amount, transaction_type))
+            else:
+                    ### COLLECT INVALID RECORDS ###
+                invalid_record = (row, error_message)
+                rejected_records.append(invalid_record)
                 
-                # Record transactions in the customer's transaction history
-                customer_data[customer_id]['transactions'].append((transaction_amount, transaction_type))
-                
-    ### COLLECT INVALID RECORDS ###
 except FileNotFoundError as file_not_found:
     print(f"ERROR: {file_not_found}")
 except Exception as e:
     print(f"ERROR: {e}")
+
 
 
 
