@@ -2,7 +2,7 @@
 Description: A program that reads through transaction records and reports the results.
 Author: ACE Faculty
 Edited by: Kareem Russell
-Date: October 13, 2023
+Date:October 13, 2023
 Usage: This program will read transaction data from a .csv file, summarize and 
 report the results.
 """
@@ -15,7 +15,7 @@ rejected_records = []
 transaction_count = 0
 transaction_counter = 0
 total_transaction_amount = 0
-valid_record = True
+valid_record = True 
 error_message = ''
 
 os.system('cls' if os.name == 'nt' else 'clear')
